@@ -11,7 +11,7 @@ p {
   min-height: 100vh;
 }
 .container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -33,6 +33,7 @@ button:focus {
   width: 40px;
   height: 32px;
   z-index: 2;
+  margin-top: 12px;
 }
 
 .hamburger-btn span::before,
@@ -185,9 +186,8 @@ button:focus {
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px 15px;
-    max-width: 1440px;
     margin: auto;
-    padding-top: 55px;
+    /* padding-top: 55px; */
 }
 
 .category-card {

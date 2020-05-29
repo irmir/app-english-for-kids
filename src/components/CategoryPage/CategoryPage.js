@@ -4,31 +4,47 @@ import { bindActionCreators } from 'redux'
 
 import { Card } from '../Body/Card'
 
-import { getCategoryCards, startTheGame } from '../../redux/actions'
+import { getCategoryCards, startTheGame, markCorrectAnswer, markWrongAnswer } from '../../redux/actions'
 
 
-const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, wrongAnswer, answers }) => {
+const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, wrongAnswer, answers, markCorrect, markError, gameWord }) => {
     
     const clickStart = useCallback(() => () => {
 
         startGame()
     })
 
+    const clickTrain = useCallback((audio) => () => {
+        debugger
+        const audioObj = new Audio(`/${audio}`);
+        audioObj.play()
+    })
+
+    const clickPlay = useCallback((word, gameWord) => () => {
+        debugger
+        if (word === gameWord) {
+            markCorrect(word)
+            setTimeout(startGame, 1000)
+        } else  {
+            markError(word)
+            setTimeout(startGame, 1000)
+        }
+    })
+
     return (
         <div className="container main-page">
-            {
-                !modeTrain && 
                 <div className="rating">
                     {
                         answers.map((elem) => (
                             <div className={elem.answer ? "star correct": "star wrong"}></div>))
                     }
                 </div>
-            }
             {
                 cards ?
                     cards.map((elem) => <Card word={elem.word} translation={elem.translation}
-                        image={elem.image} audio={elem.audioSrc} />)
+                        image={elem.image} audio={elem.audioSrc} onclick={ modeTrain ? clickTrain(elem.audioSrc): 
+                            correctAnswer.includes(elem.word) ? undefined:
+                            clickPlay(elem.word, gameWord)}/>)
                 : null   
             }
             {
@@ -44,10 +60,14 @@ export const CategoryPage = connect(
         modeTrain: state.body.modeTrain,
         correctAnswer: state.body.correctAnswer,
         wrongAnswer: state.body.wrongAnswer,
-        answers: state.body.answers
+        answers: state.body.answers,
+        gameWord: state.body.gameWord,
+
     }),
     (dispatch) => bindActionCreators({
        startGame: startTheGame,
+       markCorrect: markCorrectAnswer,
+       markError: markWrongAnswer,
     }, dispatch)
 )(CategoryPageComponent)
 

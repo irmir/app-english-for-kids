@@ -4,14 +4,16 @@ const defaultState = {
     categoryCards: '',
     isMenuOpen: false,
     cards: '',
+    copyCard: '',
     audioSRC: '',
     wordTranslation: undefined,
     isCardFlipped: false,
     activeCategory: undefined,
     modeTrain: true,
-    correctAnswer: false,
-    // wrongAnswer: [],
-    answers: []
+    correctAnswer: [],
+    answers: [],
+    gameWord: '',
+    gameCards: []
 }
 
 export const bodyReducer = (state = defaultState, action) => {
@@ -26,7 +28,8 @@ export const bodyReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 categoryCards: cards[0],
-                cards: displayedСards
+                cards: displayedСards,
+                copyCard: displayedСards
             }
         }
 
@@ -72,27 +75,49 @@ export const bodyReducer = (state = defaultState, action) => {
         case 'START_GAME': {
             debugger
 
-            const cards = state.cards 
+                if (state.copyCard.length > 0) {
 
-            var random = Math.floor(Math.random() * cards.length);
-
-            const audioObj = new Audio(`/${cards[random].audioSrc}`);
-            audioObj.play()
-
-            return {
-                ...state,
-                cards,
-                gameCard: cards[random].word
-            }
+                    const cardsPl = [...state.copyCard]
+                    var random = Math.floor(Math.random() *  cardsPl.length);
+        
+                    const audioObj = new Audio(`/${cardsPl[random].audioSrc}`);
+                    audioObj.play()
+    
+                    // cardsPl.splice(random, 1)
+                    
+                    return {
+                        ...state,
+                        gameWord: state.copyCard[random].word,
+                        // copyCard: cardsPl
+                    }
+                } else {
+                    return console.log('end')
+                } 
+               
+            
         }
 
         case 'MARK_CORRECT': {
+            debugger
+            
+            const audioObj = new Audio('audio/correct-answer.mp3')
+            audioObj.play()
+
             const word = action.payload 
+
+            const {copyCard} = state
+            
+            const newAray = copyCard.filter((elem) => {
+                return elem.word !== word 
+            })
+
+            console.log(newAray)
 
             return {    
                 ...state,
-                correctAnswer: true,
-                answers: [...state.answers, {word: `${word}`, answer: true}]
+                correctAnswer: [...state.correctAnswer, word],
+                answers: [...state.answers, {word: `${word}`, answer: true}],
+                copyCard: newAray
             }
         }
 
@@ -105,8 +130,9 @@ export const bodyReducer = (state = defaultState, action) => {
 
             return {
                 ...state,
-                correctAnswer: false,
-                answers: [...state.answers, {word: `${word}`, answer: false}]
+                // correctAnswer: false,
+                answers: [...state.answers, {word: `${word}`, answer: false}],
+
             }
         }
 
