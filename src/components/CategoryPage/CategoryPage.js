@@ -7,7 +7,7 @@ import { getCategoryCards, startTheGame, markCorrectAnswer, markWrongAnswer } fr
 
 
 const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, answers,
-    markCorrect, markError, gameWord, getCards }) => {
+    markCorrect, markError, gameWord, getCards, isPlayed }) => {
 
     useEffect(() => {
         getCards()
@@ -49,7 +49,7 @@ const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, ans
                     : null
             }
             {
-                !modeTrain && <div className="btns"><button onClick={clickStart()} className="btn">Start Game</button></div>
+                !modeTrain && <div className="btns"><button onClick={clickStart()} className= {isPlayed ? "btn btn-active": "btn"} > {!isPlayed ? "Start Game": "!"}</button></div>
             }
         </div>
     )
@@ -63,7 +63,7 @@ export const CategoryPage = connect(
         wrongAnswer: state.body.wrongAnswer,
         answers: state.body.answers,
         gameWord: state.body.gameWord,
-
+        isPlayed: state.body.isPlayed
     }),
     (dispatch) => bindActionCreators({
         startGame: startTheGame,

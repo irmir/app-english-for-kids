@@ -15,7 +15,8 @@ const defaultState = {
     gameWord: '',
     gameCards: [],
     gameOver: false,
-    errors: 0
+    errors: 0,
+    isPlayed: false
 }
 
 export const bodyReducer = (state = defaultState, action) => {
@@ -51,6 +52,7 @@ export const bodyReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 cards: displayedСards,
+                copyCard:displayedСards,
                 activeCategory: id,
             }
         }
@@ -73,6 +75,7 @@ export const bodyReducer = (state = defaultState, action) => {
         }
 
         case 'START_GAME': {
+            debugger
             if (state.copyCard.length > 0) {
 
                 const cardsPl = [...state.copyCard]
@@ -84,13 +87,15 @@ export const bodyReducer = (state = defaultState, action) => {
                 return {
                     ...state,
                     gameWord: state.copyCard[random].word,
+                    isPlayed: true
                 }
             } else {
                 window.location = '/result'
 
                 return {
                     ...state,
-                    gameOver: true
+                    gameOver: true,
+                    isPlayed: true
                 }
             }
         }

@@ -10,7 +10,7 @@ const ResultPageComponent = ({errors, getErrors}) => {
         getErrors()
         setTimeout(function() {
             window.location = '/cards'
-        }, 3 * 1000)
+        }, 1000)
         localStorage.removeItem('errors')
     }, [])
 

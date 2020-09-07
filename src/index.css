@@ -350,7 +350,18 @@ button:focus {
     outline: 0!important;
     -webkit-transition: .3s;
     transition: .3s;
+    border: none;
+    cursor: pointer;
 }
+.btn-active {
+  width: 65px;
+  background-image: url(/static/media/repeat.d0f11196.svg),linear-gradient(40deg,#ffd86f,#fc6262);
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: 32px 32px,cover;
+  background-position: 50%;
+}
+
 .rating {
     display: flex;
     justify-content: flex-end;

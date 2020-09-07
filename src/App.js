@@ -6,7 +6,6 @@ import { Route, BrowserRouter } from 'react-router-dom'
 import { Header, CategoryCards, CategoryPage, ResultPage } from './components'
 
 function App() {
-  debugger
 
   return (
     <Provider store={store}>
