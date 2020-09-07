@@ -1,16 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { ToggleMenu, Switch, NavBar } from './components'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { getCategoryCards } from '../../redux/actions'
-
-const HeaderComponent = ({ getCards }) => {
-
-    useEffect(() => {
-        getCards()
-    }, [])
+export const Header = () => {
 
     return (
         <div className="container header">
@@ -21,9 +13,4 @@ const HeaderComponent = ({ getCards }) => {
     )
 }
 
-export const Header = connect(
-    null,
-    (dispatch) => bindActionCreators({
-        getCards: getCategoryCards
-    }, dispatch)
-)(HeaderComponent)
+

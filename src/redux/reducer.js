@@ -13,17 +13,18 @@ const defaultState = {
     correctAnswer: [],
     answers: [],
     gameWord: '',
-    gameCards: []
+    gameCards: [],
+    gameOver: false,
+    errors: 0
 }
 
 export const bodyReducer = (state = defaultState, action) => {
-    debugger
+
     switch (action.type) {
 
         case 'GET_CATEGORY_CARDS': {
-            
-            const displayedСards = localStorage.getItem('cards') ? 
-            JSON.parse(localStorage.getItem('cards')): []
+            const displayedСards = localStorage.getItem('cards') ?
+                JSON.parse(localStorage.getItem('cards')) : []
 
             return {
                 ...state,
@@ -34,7 +35,7 @@ export const bodyReducer = (state = defaultState, action) => {
         }
 
         case 'SHOW_MENU': {
-            
+
             return {
                 ...state,
                 isMenuOpen: !state.isMenuOpen,
@@ -43,7 +44,7 @@ export const bodyReducer = (state = defaultState, action) => {
 
         case 'SHOW_CATEGORY_CARDS': {
             const id = action.payload
-            
+
             localStorage.setItem('cards', JSON.stringify(cards[id]))
             const displayedСards = JSON.parse(localStorage.getItem('cards'))
 
@@ -60,12 +61,11 @@ export const bodyReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 wordTranslation: word,
-                // isCardFlipped: !state.isCardFlipped
             }
         }
 
         case 'SWITCH_MODE': {
-            
+
             return {
                 ...state,
                 modeTrain: !state.modeTrain
@@ -73,70 +73,71 @@ export const bodyReducer = (state = defaultState, action) => {
         }
 
         case 'START_GAME': {
-            debugger
+            if (state.copyCard.length > 0) {
 
-                if (state.copyCard.length > 0) {
+                const cardsPl = [...state.copyCard]
+                var random = Math.floor(Math.random() * cardsPl.length);
 
-                    const cardsPl = [...state.copyCard]
-                    var random = Math.floor(Math.random() *  cardsPl.length);
-        
-                    const audioObj = new Audio(`/${cardsPl[random].audioSrc}`);
-                    audioObj.play()
-    
-                    // cardsPl.splice(random, 1)
-                    
-                    return {
-                        ...state,
-                        gameWord: state.copyCard[random].word,
-                        // copyCard: cardsPl
-                    }
-                } else {
-                    return console.log('end')
-                } 
-               
-            
+                const audioObj = new Audio(`/${cardsPl[random].audioSrc}`);
+                audioObj.play()
+
+                return {
+                    ...state,
+                    gameWord: state.copyCard[random].word,
+                }
+            } else {
+                window.location = '/result'
+
+                return {
+                    ...state,
+                    gameOver: true
+                }
+            }
         }
 
         case 'MARK_CORRECT': {
-            debugger
-            
             const audioObj = new Audio('audio/correct-answer.mp3')
             audioObj.play()
 
-            const word = action.payload 
-
-            const {copyCard} = state
-            
+            const word = action.payload
+            const { copyCard } = state
             const newAray = copyCard.filter((elem) => {
-                return elem.word !== word 
+                return elem.word !== word
             })
 
-            console.log(newAray)
-
-            return {    
+            return {
                 ...state,
                 correctAnswer: [...state.correctAnswer, word],
-                answers: [...state.answers, {word: `${word}`, answer: true}],
+                answers: [...state.answers, { word: `${word}`, answer: true }],
                 copyCard: newAray
             }
         }
 
         case 'MARK_ERROR': {
-
             const audioObj = new Audio('audio/error2.mp3')
             audioObj.play()
 
             const word = action.payload
+            const { errors } = state
+
+            localStorage.setItem('errors', errors + 1)
+            const err = JSON.parse(localStorage.getItem('errors'))
 
             return {
                 ...state,
-                // correctAnswer: false,
-                answers: [...state.answers, {word: `${word}`, answer: false}],
-
+                errors: err,
+                answers: [...state.answers, { word: `${word}`, answer: false }],
             }
         }
 
+        case 'GET_ERRORS_VALUE': {
+            const err = JSON.parse(localStorage.getItem('errors'))
 
+            return {
+                ...state,
+                errors: err
+            }
+        }
 
         default: {
             return state

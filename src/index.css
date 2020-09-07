@@ -11,7 +11,7 @@ p {
   min-height: 100vh;
 }
 .container {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -86,6 +86,11 @@ button:focus {
 
 .switch {
   position: relative;
+  position: relative;
+  border-radius: 5px;
+  box-shadow: inset 0 -1px #fff, inset 0 1px 1px rgba(0,0,0,.05);
+  cursor: pointer;
+  background-image: linear-gradient(180deg,#eee,#fff 25px);
 }
 .mode {
     position: absolute;
@@ -93,7 +98,7 @@ button:focus {
     left: 15px;
     text-transform: uppercase;
     color: #fff;
-    font-size: 20px;
+    font-size: 18px;
 }
 .mode-play {
   left: 66px;
@@ -102,11 +107,9 @@ button:focus {
 .switch input {
   position: relative;
     width: 126px;
-    height: 46px;
+    height: 42px;
     -webkit-appearance: none;
     background: linear-gradient(40deg,#00bf82,#0099ae);
-    /* background: #00bf82ed; */
-    /* box-shadow: inset 0 1px 2px rgba(0,0,0,.15), inset 0 0 3px rgba(0,0,0,.2); */
     border-radius: 5px;
     border: none;
     transition: .3s;
@@ -123,8 +126,8 @@ button:focus {
     position: absolute;
     top: 5px;
     right: 6px;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 5px;
     background-color: #ffffff;
     transition: .3s;
@@ -133,6 +136,27 @@ button:focus {
 .switch input:checked[type="checkbox"]::before {
   right: 86px;
 }
+
+.switch input::after {
+  content: "";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin: -6px 0 0 -6px;
+    width: 12px;
+    height: 12px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    box-shadow: inset 0 1px rgba(0,0,0,.02);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#eee),to(#fff));
+    background-image: linear-gradient(180deg,#eee,#fff);
+    transition: .3s;
+    transform: scale(1.1);
+} 
+.switch input:checked[type="checkbox"]::after {
+  right: 95px;
+}
+
 .switch::after {
   content: attr(data-mode);
 }
@@ -183,11 +207,13 @@ button:focus {
 
 .main-page {
   display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 20px 15px;
-    margin: auto;
-    /* padding-top: 55px; */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: auto;
+}
+.indent {
+  height: 40px;
+  width: 100%;
 }
 
 .category-card {
@@ -206,7 +232,7 @@ button:focus {
   text-decoration: none;
   background: -webkit-gradient(linear,left top,left bottom,from(#0099ae),color-stop(40%,#00bf82),color-stop(40%,#fff),to(#fff));
   background: linear-gradient(180deg,#0099ae,#00bf82 40%,#fff 0,#fff);
-  margin: 20px 25px;
+  margin: 20px 0;
   cursor: pointer;
   -webkit-transition: .3s;
   transition: .3s;
@@ -226,26 +252,7 @@ button:focus {
   object-fit: cover;
   margin: 30px auto;
 }
-/* .card {
-  position: relative;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  display: flex;
-  box-sizing: border-box;
-  justify-content: flex-end;
-  width: 300px;
-  height: 250px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin: 20px 25px;
-  box-shadow: 0 1px 3px 0 #ccc;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,.4);
-  -webkit-transition: box-shadow .25s linear,-webkit-transform .7s;
-  transition: box-shadow .25s linear,-webkit-transform .7s;
-  transition: box-shadow .25s linear,transform .7s;
-  transition: box-shadow .25s linear,transform .7s,-webkit-transform .7s;
 
-} */
 .wrapper-card {
   perspective: 500px;
 }
@@ -255,7 +262,7 @@ button:focus {
   height: 250px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin: 20px 25px;
+  margin: 20px 0;
   box-shadow: 0 1px 3px 0 #ccc;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.4);
   -webkit-transition: box-shadow .25s linear,-webkit-transform .7s;
@@ -279,6 +286,9 @@ button:focus {
   -webkit-transition: .3s;
   transition: .3s;
   transform: rotateY(180deg);
+}
+.front {
+  transition: .3s;
 }
 
 .img-wrapper {
@@ -384,5 +394,19 @@ button:focus {
 .star:before {
   -webkit-clip-path: polygon(50% 0%, 66% 27%, 98% 35%, 76% 57%, 79% 91%, 50% 78%, 21% 91%, 24% 57%, 2% 35%, 32% 27%);
   clip-path: polygon(50% 0%, 66% 27%, 98% 35%, 76% 57%, 79% 91%, 50% 78%, 21% 91%, 24% 57%, 2% 35%, 32% 27%);
+}
+
+.result {
+  position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    z-index: 2;
+    padding-top: 80px;
+} 
+.result h1 {
+  text-align: center;
 }
 /*  */

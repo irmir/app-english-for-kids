@@ -1,31 +1,32 @@
-import React, {useCallback} from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Card } from '../Body/Card'
-
+import { Card } from '../CategoryCards/Card'
 import { getCategoryCards, startTheGame, markCorrectAnswer, markWrongAnswer } from '../../redux/actions'
 
 
-const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, wrongAnswer, answers, markCorrect, markError, gameWord }) => {
-    
-    const clickStart = useCallback(() => () => {
+const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, answers,
+    markCorrect, markError, gameWord, getCards }) => {
 
+    useEffect(() => {
+        getCards()
+    }, [])
+
+    const clickStart = useCallback(() => () => {
         startGame()
     })
 
     const clickTrain = useCallback((audio) => () => {
-        debugger
         const audioObj = new Audio(`/${audio}`);
         audioObj.play()
     })
 
     const clickPlay = useCallback((word, gameWord) => () => {
-        debugger
         if (word === gameWord) {
             markCorrect(word)
             setTimeout(startGame, 1000)
-        } else  {
+        } else {
             markError(word)
             setTimeout(startGame, 1000)
         }
@@ -33,19 +34,19 @@ const CategoryPageComponent = ({ cards, modeTrain, startGame, correctAnswer, wro
 
     return (
         <div className="container main-page">
-                <div className="rating">
-                    {
-                        answers.map((elem) => (
-                            <div className={elem.answer ? "star correct": "star wrong"}></div>))
-                    }
-                </div>
+            <div className="rating">
+                {
+                    answers.map((elem) => (
+                        <div className={elem.answer ? "star correct" : "star wrong"}></div>))
+                }
+            </div>
             {
                 cards ?
                     cards.map((elem) => <Card word={elem.word} translation={elem.translation}
-                        image={elem.image} audio={elem.audioSrc} onclick={ modeTrain ? clickTrain(elem.audioSrc): 
-                            correctAnswer.includes(elem.word) ? undefined:
-                            clickPlay(elem.word, gameWord)}/>)
-                : null   
+                        image={elem.image} audio={elem.audioSrc} onclick={modeTrain ? clickTrain(elem.audioSrc) :
+                            correctAnswer.includes(elem.word) ? undefined :
+                                clickPlay(elem.word, gameWord)} />)
+                    : null
             }
             {
                 !modeTrain && <div className="btns"><button onClick={clickStart()} className="btn">Start Game</button></div>
@@ -65,9 +66,10 @@ export const CategoryPage = connect(
 
     }),
     (dispatch) => bindActionCreators({
-       startGame: startTheGame,
-       markCorrect: markCorrectAnswer,
-       markError: markWrongAnswer,
+        startGame: startTheGame,
+        markCorrect: markCorrectAnswer,
+        markError: markWrongAnswer,
+        getCards: getCategoryCards
     }, dispatch)
 )(CategoryPageComponent)
 

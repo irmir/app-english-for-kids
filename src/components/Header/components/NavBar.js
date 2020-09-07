@@ -7,14 +7,12 @@ import { bindActionCreators } from 'redux'
 import { showCategoryCards, getCategoryCards } from '../../../redux/actions'
 
 const NavBarComponents = ({ activeCategory, isMenuOpen, showCard, getCards, categoryCards, modeTrain }) => {
-    debugger
+    
     useEffect(() => {
-        debugger
         getCards()
     }, [])
 
     const onclick = useCallback((id) => () => {
-        debugger
         showCard(id)
     })
 

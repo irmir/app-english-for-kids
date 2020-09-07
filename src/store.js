@@ -1,5 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-// import thunk from 'redux-thunk'
+import { createStore, combineReducers } from 'redux'
 
 import { bodyReducer } from './redux/reducer'
 
@@ -8,5 +7,3 @@ const reducers = combineReducers({
 })
 
 export const store = createStore(reducers)
-
-// export const store = createStore(reducers, applyMiddleware(thunk))

@@ -1,3 +1,4 @@
 export { Header } from './Header'
-export { Body } from './Body'
+export { CategoryCards } from './CategoryCards'
 export { CategoryPage } from './CategoryPage'
+export { ResultPage } from './ResultPage'

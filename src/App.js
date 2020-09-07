@@ -3,8 +3,7 @@ import { Provider } from 'react-redux'
 import { store } from './store'
 import { Route, BrowserRouter } from 'react-router-dom'
 
-import { Header, Body, CategoryPage } from './components'
-// import { MainPage } from './components'
+import { Header, CategoryCards, CategoryPage, ResultPage } from './components'
 
 function App() {
   debugger
@@ -14,10 +13,9 @@ function App() {
       <BrowserRouter>
         <div className="app">
           <Header />
-
-          <Route path="/" exact render={() => <Body />} />
+          <Route path="/" exact render={() => <CategoryCards />} />
           <Route path="/cards" render={() => <CategoryPage />} />
-
+          <Route path="/result" render={() => <ResultPage />} />
         </div>
       </BrowserRouter>
     </Provider>

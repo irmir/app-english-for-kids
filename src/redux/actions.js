@@ -1,6 +1,5 @@
 
 export const showCategoryCards = (id) => ({
-    
     type: 'SHOW_CATEGORY_CARDS',
     payload: id
 })
@@ -39,4 +38,8 @@ export const markCorrectAnswer = (word) => ({
 export const markWrongAnswer = (word) => ({
     type: 'MARK_ERROR',
     payload: word
+})
+
+export const getErrorsValue = () => ({
+    type: 'GET_ERRORS_VALUE'
 })
