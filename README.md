@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App]
+This project was bootstrapped with Create React App
 
 This is an English learning app for kids. There are two modes - train and play.
 
